@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 18-Ago-2021 às 05:14
+-- Tempo de geração: 20-Ago-2021 às 03:30
 -- Versão do servidor: 10.4.19-MariaDB
 -- versão do PHP: 8.0.6
 
@@ -76,7 +76,21 @@ INSERT INTO `cidade` (`cd_cidade`, `id_estado`, `nm_cidade`) VALUES
 (36, 3, 'Bodoquena'),
 (37, 3, 'Miranda'),
 (38, 3, 'Ponta Porã'),
-(39, 3, 'Aquidauana');
+(39, 3, 'Aquidauana'),
+(40, 4, 'Rio Branco'),
+(41, 4, 'Cruzeiro do Sul'),
+(42, 5, 'Macapá'),
+(43, 5, 'Santana'),
+(44, 6, 'Alter do Chão'),
+(45, 6, 'Belém'),
+(46, 7, 'Porto Velho'),
+(47, 7, 'Guajará-Mirim'),
+(48, 8, 'Uiramitã'),
+(49, 8, 'Boa Vista'),
+(50, 9, 'Palmas'),
+(51, 9, 'Araguaína'),
+(52, 10, 'Parintins'),
+(53, 9, 'Manaus');
 
 -- --------------------------------------------------------
 
@@ -116,7 +130,61 @@ CREATE TABLE `estado` (
 INSERT INTO `estado` (`cd_estado`, `id_regiao`, `nm_estado`) VALUES
 (1, 5, 'Goiás'),
 (2, 5, 'Mato Grosso'),
-(3, 5, 'Mato Grosso do Sul');
+(3, 5, 'Mato Grosso do Sul'),
+(4, 3, 'Acre'),
+(5, 3, 'Amapá'),
+(6, 3, 'Pará'),
+(7, 3, 'Rondônia'),
+(8, 3, 'Roraima'),
+(9, 3, 'Tocantins'),
+(10, 3, 'Amazonas');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `favorito`
+--
+
+CREATE TABLE `favorito` (
+  `cd_favorito` int(10) UNSIGNED NOT NULL,
+  `id_usuario` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `imagem`
+--
+
+CREATE TABLE `imagem` (
+  `cd_imagem` int(10) UNSIGNED NOT NULL,
+  `descricao` varchar(20) NOT NULL,
+  `id_ponto` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `ponto`
+--
+
+CREATE TABLE `ponto` (
+  `cd_ponto` int(10) UNSIGNED NOT NULL,
+  `id_cidade` varchar(20) NOT NULL DEFAULT '',
+  `nm_ponto` varchar(20) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `ponto-roteiro`
+--
+
+CREATE TABLE `ponto-roteiro` (
+  `cd_ponto-roteiro` int(10) UNSIGNED NOT NULL,
+  `id_ponto` varchar(20) NOT NULL,
+  `id_roteiro` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -177,6 +245,19 @@ INSERT INTO `tipo` (`cd_tipo`, `nm_tipo`) VALUES
 (7, 'Cidade'),
 (8, 'Família');
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `cd_usuario` int(10) UNSIGNED NOT NULL,
+  `nome` varchar(20) NOT NULL,
+  `email` varchar(20) NOT NULL,
+  `senha` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Índices para tabelas despejadas
 --
@@ -200,6 +281,30 @@ ALTER TABLE `estado`
   ADD PRIMARY KEY (`cd_estado`);
 
 --
+-- Índices para tabela `favorito`
+--
+ALTER TABLE `favorito`
+  ADD PRIMARY KEY (`cd_favorito`);
+
+--
+-- Índices para tabela `imagem`
+--
+ALTER TABLE `imagem`
+  ADD PRIMARY KEY (`cd_imagem`);
+
+--
+-- Índices para tabela `ponto`
+--
+ALTER TABLE `ponto`
+  ADD PRIMARY KEY (`cd_ponto`);
+
+--
+-- Índices para tabela `ponto-roteiro`
+--
+ALTER TABLE `ponto-roteiro`
+  ADD PRIMARY KEY (`cd_ponto-roteiro`);
+
+--
 -- Índices para tabela `regiao`
 --
 ALTER TABLE `regiao`
@@ -216,6 +321,12 @@ ALTER TABLE `roteiro`
 --
 ALTER TABLE `tipo`
   ADD PRIMARY KEY (`cd_tipo`);
+
+--
+-- Índices para tabela `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`cd_usuario`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
