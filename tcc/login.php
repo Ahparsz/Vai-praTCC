@@ -17,7 +17,7 @@
 			$_SESSION['usuario'] = $dados->cd_usuario;
 			$_SESSION['email'] = $dados->email;
 		}
-		echo"<br> LOGADO MULEKE";
+		header('location:index.php');
     }else{
     	echo"<br> Dados inválidos, tente de novo.";
     }

@@ -16,7 +16,7 @@ if (isset($_SESSION['usuario'])) {
 		<br><img src="img/placa.png" alt="Placa dos surtos" height="300px" width="270px">
 		<br>
 		<br><a href="login.php" class="btn btn-dark">LOGIN</a>
-		<a href="#filtro.php" class="btn btn-dark">AINDA EM PROCESSO...</a>
+		<a href="filtro.php" class="btn btn-dark">AINDA EM PROCESSO...</a>
 
 	</center>
 </body>
