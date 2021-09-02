@@ -8,16 +8,18 @@
         $nome = $_POST['nome'];
         $email = $_POST['email'];
         $senha = $_POST['senha'];
-        $insert = "insert into usuario (cd_usuario, nome, email, senha) values (null,'".$_POST['nome']."', '".$_POST['email']."', '".$_POST['senha']."')";
-
-        if ($mysqli->query($insert)=== TRUE) {
-            header('location:index.php');
-        }
-        else{
-            echo ("<br> Deu erro");
-            }
-    }
+		$insert = "insert into usuario (cd_usuario, nome, email, senha) values (null,'".$_POST['nome']."', '".$_POST['email']."', '".$_POST['senha']."')";
+			if ($mysqli->query($insert)=== TRUE){
+				header('location:login.php');
+				//echo "CADASTRADO";
+			}else{
+				echo("E-mail inválido");
+				}
+	}
 ?>
+
+
+
 <title>Cadastro</title>
 <body>
 <center>

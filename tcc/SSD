@@ -1,0 +1,5 @@
+$insert = "insert into usuario (cd_usuario, nome, email, senha) values (null,'".$_POST['nome']."', '".$_POST['email']."', '".$_POST['senha']."')";
+elseif ($mysqli->query($insert)=== TRUE){
+				header('location:login.php');
+				//echo "CADASTRADO";
+			}
