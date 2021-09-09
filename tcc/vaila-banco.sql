@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 31-Ago-2021 às 22:44
+-- Tempo de geração: 09-Set-2021 às 22:23
 -- Versão do servidor: 10.4.19-MariaDB
 -- versão do PHP: 8.0.6
 
@@ -266,7 +266,21 @@ INSERT INTO `usuario` (`cd_usuario`, `nome`, `email`, `senha`) VALUES
 (1, 'Nillie', 'triliche@gmail.com', '000'),
 (2, 'WEWE', 'badguy@gmail.com', '111'),
 (3, 'Pipolho', 'badguy@gmail.com', '111'),
-(4, 'Helena', 'helenasars@gmail.com', '222');
+(4, 'Helena', 'helenasars@gmail.com', '222'),
+(5, 'Karine', 'karine@gmail.com', '123'),
+(6, 'Kaka', 'karine@gmail.com', '456'),
+(7, 'Kaki', 'karine@gmail.com', '246'),
+(8, 'EEE', 'karine@gmail.com', '232'),
+(9, 'PP', 'karine@gmail.com', 'PP'),
+(10, 'PP', 'karine@gmail.com', 'PP'),
+(11, 'Nillie', 'triliche@gmail.com', '000'),
+(12, 'Nillie', 'triliche@gmail.com', '000'),
+(13, 'Karine', 'karine@gmail.com', 'df'),
+(14, 'QQQ', 'karine@gmail.com', 'qqq'),
+(15, 'Natalia', 'karine@gmail.com', 'pop'),
+(16, 'Natalia', 'karine@gmail.com', 'pop'),
+(17, 'Kakae', 'karine@gmail.com', 'eee'),
+(18, 'QQW', 'karine@gmail.com', 'RRER');
 
 --
 -- Índices para tabelas despejadas
@@ -346,7 +360,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `cd_usuario` int(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `cd_usuario` int(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
