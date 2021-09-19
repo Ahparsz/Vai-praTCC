@@ -9,57 +9,69 @@ if (!isset($_SESSION)) session_start();
       header("Location: index.php"); exit;
   }
 
-      $sql = "select * from regiao";
-  
-      if ($result = $mysqli->query($sql)) {
-          echo "<form method='post'>
-              <fieldset>
-              <legend><h1>Registro</h1></legend>
-              <label><b>Região que deseja cadastrar: </b></label><br>";
-  
-             while($obj = $result->fetch_object()){
-              echo "<input type='radio' name='regiao' value='$obj->cd_regiao'> $obj->nm_regiao <br><br>";
-          }
-      }
-  
-      if (isset($_POST['regiao'])&&isset($_POST['estado'])) {
-          $regiao=$_POST['regiao'];
-          $estado = $_POST['estado'];
-          $insert = "insert into estado (cd_estado, nm_estado, id_regiao) values (null,'".$_POST['estado']."', '".$_POST['regiao']."')";
-  
-          if ($mysqli->query($insert)=== TRUE) {
-              echo "<br> Estado gravado com sucesso.";
-          }
-          else{
-              echo ("<br>".$mysqli->error);
-              }
-      }
-  ?>
-      <title>INSERÇÃO</title>
-  <body>	
-    <container>
-      <br><label><b>Estado: </b></label><br>
-      <input type="text" name="estado" placeholder="Digite um estado"><br>
-      </fieldset>
-      <br>
-          
-      <input type="submit" value="Gravar"> 
-      <input type="reset" name="Limpar">
-      <a href="inserir2.php" name="next">INSERIR CIDADES</a>
-      </form>
-      <br><br>
-  
-      <?php
-          $show = "select * from estado";
-  
-          echo "<center><h3>Estados já cadastrados</h3></center><br>";
-  
-          if ($query = $mysqli->query($show)) {
-              while ($dados = $query->fetch_object()) {
-                  echo "<center><table border='3'><tr><th>Código ddo estado</th> <th>Nome do estado</th> <th>Está em qual região</th></tr> <tr><td>" . $dados->cd_estado . "</td>" . "<td>" . $dados->nm_estado . "<td>" . $dados->id_regiao . "</td></tr></table></center><br>";
-              }
-          }
-      ?>
-  </body>
-        </container>
-  </html>
+  $sql = "select * from regiao";
+  if ($result = $mysqli->query($sql)) {
+        echo "
+<body> 
+  <div class'container'>
+  <div class='row'>
+      <div class='col-sm-12'>
+        <form method='post'>
+                  <div class='panel-body panel-default'>
+                      <h3>Adicionar estado</h3>
+                          <div class='form-group'>
+                              <label for='sel1'>Selecione uma região:</label><br>";
+
+           while($obj = $result->fetch_object()){
+            echo "<input type='radio' id='regiao' value='$obj->cd_regiao'> $obj->nm_regiao <br>";
+        }
+    }
+
+    if (isset($_POST['regiao'])&&isset($_POST['estado'])) {
+        $regiao=$_POST['regiao'];
+        $estado = $_POST['estado'];
+        $insert = "insert into estado (cd_estado, nm_estado, id_regiao) values (null,'".$_POST['estado']."', '".$_POST['regiao']."')";
+
+        if ($mysqli->query($insert)=== TRUE) {
+            echo "<br> Estado gravado com sucesso.";
+        }
+        else{
+            echo ("<br>".$mysqli->error);
+            }
+    }
+
+    $show = "select * from estado";
+
+    echo "<center><h3>Estados já cadastradas</h3></center><br>";
+
+    if ($query = $mysqli->query($show)) {
+        while ($dados = $query->fetch_object()) {
+            echo "<center><table border='1'><tr><th>Código da estado</th> <th>Nome da estado</th> <th>Está em qual regiao</th></tr> <tr><td>" . $dados->cd_estado . "</td>" . "<td>" . $dados->nm_estado . "<td>" . $dados->id_regiao . "</td></tr></table></center><br>";
+        }
+    }
+?>
+</head>
+
+<br>
+        <br>
+                            <label>Adicionar estado:</label>
+                            <input class='form-control' type='text' name='estado' id='estado' placeholder='Digite um estado'><br>
+                            <br>
+                            <button type='submit' class='btn btn-info'>Enviar</button>
+                            <button type='reset' class='btn btn-info'>Limpar</button>
+                            <a href='inserir2.php' class='btn btn-info'>INSERIR CIDADES</a>
+                            <a href='restrito.php' class='btn btn-info'>VOLTAR</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<style>
+    body{
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+</style>

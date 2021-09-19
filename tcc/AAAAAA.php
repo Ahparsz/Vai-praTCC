@@ -48,7 +48,7 @@ if (!isset($_SESSION)) session_start();
                             <button type='submit' class='btn btn-info'>Enviar</button>
                             <button type='reset' class='btn btn-info'>Limpar</button>
                             
-                            <a href="inserir2.php" name="next">INSERIR CIDADES</a>
+                            <a href='inserir2.php' name='next'>INSERIR CIDADES</a>
                         </div>
                     </div>
                 </form>
@@ -59,3 +59,9 @@ if (!isset($_SESSION)) session_start();
 </html>"
 ?>
 </head>
+<style>
+    body{
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+</style>

@@ -9,24 +9,63 @@ if (!isset($_SESSION)) session_start();
       header("Location: index.php"); exit;
   }
 
-    $sql3 = "select * from estado";
+    $estadosql = "select * from estado";
 
-    if ($result = $mysqli->query($sql3)) {
+    if ($result = $mysqli->query($estadosql)) {
         echo "<form method='post'>
             <fieldset>
             <legend><h1>Registro</h1></legend>
             <label><b>Estado que deseja cadastrar: </b></label><br>";
 
         while($obj = $result->fetch_object()){
-            echo "<input type='radio' name='estado' value='$obj->cd_estado'> $obj->nm_estado <br><br>";
+            echo "<input type='radio' name='estado' value='$obj->cd_estado'> $obj->nm_estado <br>";
         }
     }
 
-    if (isset($_POST['estado'])&&isset($_POST['cidade'])) {
-        $cidade=$_POST['estado'];
-        $cidade = $_POST['cidade'];
-        $insert = "insert into cidade (cd_cidade, nm_cidade, id_estado) values (null,'".$_POST['cidade']."', '".$_POST['estado']."')";
+    $climasql = "select * from clima";
 
+    if ($result = $mysqli->query($climasql)) {
+        echo "
+            <br><br><label><b>Clima da cidade: </b></label><br>";
+
+        while($obj = $result->fetch_object()){
+            echo "<input type='radio' name='clima' value='$obj->cd_clima'> $obj->nm_clima <br>";
+        }
+    } 
+
+    $tiposql = "select * from tipo";
+
+    if ($result = $mysqli->query($tiposql)) {
+        echo "
+        <br><br><label><b>Característica da cidade: </b></label><br>";
+
+        while($obj = $result->fetch_object()){
+            echo "<input type='radio' name='tipo' value='$obj->cd_tipo'> $obj->nm_tipo <br>";
+        }
+    } 
+
+    $ambientesql = "select * from ambiente";
+
+    if ($result = $mysqli->query($ambientesql)) {
+        echo "
+        <br><br><label><b>Ambiente da cidade: </b></label><br>";
+
+        while($obj = $result->fetch_object()){
+            echo "<input type='radio' name='ambiente' value='$obj->cd_ambiente'> $obj->nm_ambiente <br>";
+        }
+    } 
+
+    echo "<br><br><label><b>Informações da cidade: </b></label><br>
+    <input type='text' name='info' placeholder='Digite as informações da cidade' <br>";
+
+    if (isset($_POST['estado'])&&isset($_POST['cidade'])&&isset($_POST['clima'])&&isset($_POST['tipo'])&&isset($_POST['ambiente'])&&isset($_POST['info'])) {
+        $estado =$_POST['estado'];
+        $cidade = $_POST['cidade'];
+        $clima= $_POST['clima'];
+        $tipo= $_POST['tipo'];
+        $ambiente= $_POST['ambiente'];
+        $info=$_POST['info'];
+        $insert = "insert into cidade (cd_cidade, id_estado, nm_cidade, id_clima, id_tipo, id_ambiente, info) values (null,'".$_POST['estado']."', '".$_POST['cidade']."', '".$_POST['clima']."', '".$_POST['tipo']."', '".$_POST['ambiente']."', '".$_POST['info']."')";
         if ($mysqli->query($insert)=== TRUE) {
             echo "<br> Cidade gravada com sucesso.";
         }
@@ -43,15 +82,14 @@ if (!isset($_SESSION)) session_start();
     <title>Banco com Insert</title>
 </head>
 <body>
-    <div class="container"> 
-    <br><label><b>Cidade: </b></label><br>
+    <br><br><label><b>Cidade: </b></label><br>
     <input type="text" name="cidade" placeholder="Digite uma cidade"><br>
-    </fieldset>
     <br>
         
-    <input type="submit" value="Gravar"> 
-    <input type="reset" name="Limpar">
-    <a href="index.php" name="voltar">VOLTAR</a>
+    <button type='submit' class='btn btn-info'>Enviar</button>
+    <button type='reset' class='btn btn-info'>Limpar</button>
+    <a href='inserir.php' class='btn btn-info'>VOLTAR</a>
+    <a href='restrito.php' class='btn btn-info'>INICIO</a>
     </form>
     <br><br>
 
@@ -67,5 +105,12 @@ if (!isset($_SESSION)) session_start();
         }
     ?>
     </div> 
+
+    <style>
+    body{
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+</style>
 </body>
 </html>

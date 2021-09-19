@@ -19,4 +19,13 @@ include 'header.php';
   <h1>Página restrita</h1>
   <p>Olá, <?php echo $_SESSION['user'];?>!</p>
 
-  <a href="AAAAAA.php" class="btn btn-dark">INSERIR DADOS</a>
+  <a href="inserir.php" class="btn btn-dark">INSERIR DADOS</a>
+  
+  <style>
+        body{
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+  </style>
+  </body>
+  </html>
