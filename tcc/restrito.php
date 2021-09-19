@@ -18,3 +18,5 @@ include 'header.php';
 
   <h1>Página restrita</h1>
   <p>Olá, <?php echo $_SESSION['user'];?>!</p>
+
+  <a href="AAAAAA.php" class="btn btn-dark">INSERIR DADOS</a>

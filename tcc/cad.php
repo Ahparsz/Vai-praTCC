@@ -32,11 +32,11 @@
 <br>
 
 				<label>Username:</label>
-				<input type="text" name="user" placeholder="Digite seu nome" required>
+				<input type="text" name="user" placeholder="Digite seu username" required>
 <br>
 
                 <label>Email:</label>
-				<input type="text" name="email" placeholder="Digite seu email" required>
+				<input type="email" name="email" placeholder="Digite seu email" required>
 <br>
 				<label>Senha:</label>
 				<input type="password" name="senha" placeholder="Digite sua senha" required>

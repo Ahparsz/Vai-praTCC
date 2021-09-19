@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09-Set-2021 às 22:23
+-- Tempo de geração: 19-Set-2021 às 22:54
 -- Versão do servidor: 10.4.19-MariaDB
 -- versão do PHP: 8.0.6
 
@@ -24,73 +24,46 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `ambiente`
+--
+
+CREATE TABLE `ambiente` (
+  `cd_ambiente` int(1) UNSIGNED NOT NULL,
+  `nm_ambiente` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `ambiente`
+--
+
+INSERT INTO `ambiente` (`cd_ambiente`, `nm_ambiente`) VALUES
+(1, 'rural'),
+(2, 'urbano');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `cidade`
 --
 
 CREATE TABLE `cidade` (
   `cd_cidade` int(3) UNSIGNED NOT NULL,
-  `id_estado` int(20) NOT NULL,
-  `nm_cidade` varchar(20) NOT NULL
+  `id_estado` int(20) UNSIGNED NOT NULL,
+  `nm_cidade` varchar(20) NOT NULL,
+  `id_clima` int(11) UNSIGNED NOT NULL,
+  `id_tipo` int(11) UNSIGNED NOT NULL,
+  `id_ambiente` int(11) UNSIGNED NOT NULL,
+  `id_info` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `cidade`
 --
 
-INSERT INTO `cidade` (`cd_cidade`, `id_estado`, `nm_cidade`) VALUES
-(1, 1, 'Aruaña'),
-(2, 1, 'Uruaçu'),
-(3, 1, 'Cidade de Goiás'),
-(4, 1, 'Porangatu'),
-(5, 1, 'Cocalzinho de Goiás'),
-(6, 1, 'Goiânia'),
-(7, 1, 'Cristalina'),
-(8, 1, 'Salto Corumbá'),
-(9, 1, 'Alto Paraíso'),
-(10, 1, 'Pirenópolis'),
-(11, 1, 'Cavalcante'),
-(12, 1, 'Formosa'),
-(13, 1, 'Chapado dos Veadeiro'),
-(14, 1, 'Mambaí'),
-(15, 1, 'Caldas Novas'),
-(16, 2, 'Cuiabá'),
-(17, 2, 'Chapada dos Guimarõe'),
-(18, 2, 'Alta Floresta'),
-(19, 2, 'Areanápolis'),
-(20, 2, 'Sorriso'),
-(21, 2, 'Cáceres'),
-(22, 2, 'Nobres'),
-(23, 2, 'Jaciara'),
-(24, 2, 'Poconé'),
-(25, 2, 'Primavera do Leste'),
-(26, 2, 'Vila Bela da Santíss'),
-(27, 2, 'Portal do Araguaia'),
-(28, 2, 'Serra do Roncador'),
-(29, 2, 'Barra do Garças'),
-(30, 3, 'Campo Grande'),
-(31, 3, 'Jardim'),
-(32, 3, 'Bonito'),
-(33, 3, 'Corumbá'),
-(34, 3, 'Costa Rica'),
-(35, 3, 'Pantanal'),
-(36, 3, 'Bodoquena'),
-(37, 3, 'Miranda'),
-(38, 3, 'Ponta Porã'),
-(39, 3, 'Aquidauana'),
-(40, 4, 'Rio Branco'),
-(41, 4, 'Cruzeiro do Sul'),
-(42, 5, 'Macapá'),
-(43, 5, 'Santana'),
-(44, 6, 'Alter do Chão'),
-(45, 6, 'Belém'),
-(46, 7, 'Porto Velho'),
-(47, 7, 'Guajará-Mirim'),
-(48, 8, 'Uiramitã'),
-(49, 8, 'Boa Vista'),
-(50, 9, 'Palmas'),
-(51, 9, 'Araguaína'),
-(52, 10, 'Parintins'),
-(53, 9, 'Manaus');
+INSERT INTO `cidade` (`cd_cidade`, `id_estado`, `nm_cidade`, `id_clima`, `id_tipo`, `id_ambiente`, `id_info`) VALUES
+(1, 1, 'Aruaña', 2, 2, 1, 0),
+(2, 1, 'Aruaña', 2, 7, 1, 0),
+(3, 1, 'Uruaçu', 2, 2, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -119,7 +92,7 @@ INSERT INTO `clima` (`cd_clima`, `nm_clima`) VALUES
 
 CREATE TABLE `estado` (
   `cd_estado` int(3) UNSIGNED NOT NULL,
-  `id_regiao` int(20) NOT NULL,
+  `id_regiao` int(20) UNSIGNED NOT NULL,
   `nm_estado` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -137,7 +110,14 @@ INSERT INTO `estado` (`cd_estado`, `id_regiao`, `nm_estado`) VALUES
 (7, 3, 'Rondônia'),
 (8, 3, 'Roraima'),
 (9, 3, 'Tocantins'),
-(10, 3, 'Amazonas');
+(10, 3, 'Amazonas'),
+(11, 2, 'Santa Catarina'),
+(12, 2, 'Rio Grande do Sul'),
+(13, 2, 'Paraná'),
+(14, 1, 'São Paulo'),
+(15, 1, 'Rio de Janeiro'),
+(16, 1, 'Minas Gerais'),
+(17, 4, 'Ceará');
 
 -- --------------------------------------------------------
 
@@ -147,7 +127,8 @@ INSERT INTO `estado` (`cd_estado`, `id_regiao`, `nm_estado`) VALUES
 
 CREATE TABLE `favorito` (
   `cd_favorito` int(10) UNSIGNED NOT NULL,
-  `id_usuario` varchar(20) NOT NULL
+  `id_usuario` varchar(20) NOT NULL,
+  `id_cidade` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -165,26 +146,13 @@ CREATE TABLE `imagem` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `ponto`
+-- Estrutura da tabela `info`
 --
 
-CREATE TABLE `ponto` (
-  `cd_ponto` int(10) UNSIGNED NOT NULL,
-  `id_cidade` varchar(20) NOT NULL DEFAULT '',
-  `nm_ponto` varchar(20) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `ponto-roteiro`
---
-
-CREATE TABLE `ponto-roteiro` (
-  `cd_ponto-roteiro` int(10) UNSIGNED NOT NULL,
-  `id_ponto` varchar(20) NOT NULL,
-  `id_roteiro` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `info` (
+  `cd_info` int(10) UNSIGNED NOT NULL,
+  `nm_info` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -211,19 +179,6 @@ INSERT INTO `regiao` (`cd_regiao`, `nm_regiao`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `roteiro`
---
-
-CREATE TABLE `roteiro` (
-  `cd_roteiro` int(100) UNSIGNED NOT NULL,
-  `id_clima` int(20) NOT NULL,
-  `id_tipo` int(20) NOT NULL,
-  `id_ponto` int(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `tipo`
 --
 
@@ -242,8 +197,8 @@ INSERT INTO `tipo` (`cd_tipo`, `nm_tipo`) VALUES
 (3, 'Ano Novo'),
 (4, 'Natal'),
 (5, 'Natureza'),
-(7, 'Cidade'),
-(8, 'Família');
+(6, 'Cidade'),
+(7, 'Família');
 
 -- --------------------------------------------------------
 
@@ -252,45 +207,42 @@ INSERT INTO `tipo` (`cd_tipo`, `nm_tipo`) VALUES
 --
 
 CREATE TABLE `usuario` (
-  `cd_usuario` int(3) UNSIGNED NOT NULL,
-  `nome` varchar(20) NOT NULL,
-  `email` varchar(20) NOT NULL,
-  `senha` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `cd_usuario` int(11) UNSIGNED NOT NULL,
+  `nome` varchar(50) NOT NULL,
+  `user` varchar(25) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `senha` varchar(40) NOT NULL,
+  `nivel` int(1) UNSIGNED NOT NULL DEFAULT 1,
+  `ativo` int(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `usuario`
 --
 
-INSERT INTO `usuario` (`cd_usuario`, `nome`, `email`, `senha`) VALUES
-(1, 'Nillie', 'triliche@gmail.com', '000'),
-(2, 'WEWE', 'badguy@gmail.com', '111'),
-(3, 'Pipolho', 'badguy@gmail.com', '111'),
-(4, 'Helena', 'helenasars@gmail.com', '222'),
-(5, 'Karine', 'karine@gmail.com', '123'),
-(6, 'Kaka', 'karine@gmail.com', '456'),
-(7, 'Kaki', 'karine@gmail.com', '246'),
-(8, 'EEE', 'karine@gmail.com', '232'),
-(9, 'PP', 'karine@gmail.com', 'PP'),
-(10, 'PP', 'karine@gmail.com', 'PP'),
-(11, 'Nillie', 'triliche@gmail.com', '000'),
-(12, 'Nillie', 'triliche@gmail.com', '000'),
-(13, 'Karine', 'karine@gmail.com', 'df'),
-(14, 'QQQ', 'karine@gmail.com', 'qqq'),
-(15, 'Natalia', 'karine@gmail.com', 'pop'),
-(16, 'Natalia', 'karine@gmail.com', 'pop'),
-(17, 'Kakae', 'karine@gmail.com', 'eee'),
-(18, 'QQW', 'karine@gmail.com', 'RRER');
+INSERT INTO `usuario` (`cd_usuario`, `nome`, `user`, `email`, `senha`, `nivel`, `ativo`) VALUES
+(1, 'Ademiros', 'adm', 'adm@gmail.com', 'quinteto', 2, 1),
+(2, 'Nillie', 'nilie', 'nillie@gmail.com', '000000', 1, 1),
+(3, 'Aba', 'aba', 'aba', 'aba', 1, 1);
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
+-- Índices para tabela `ambiente`
+--
+ALTER TABLE `ambiente`
+  ADD PRIMARY KEY (`cd_ambiente`);
+
+--
 -- Índices para tabela `cidade`
 --
 ALTER TABLE `cidade`
-  ADD PRIMARY KEY (`cd_cidade`);
+  ADD PRIMARY KEY (`cd_cidade`),
+  ADD KEY `fk_cidadeclima` (`id_clima`),
+  ADD KEY `fk_cidadetipo` (`id_tipo`),
+  ADD KEY `fk_cidadeambiente` (`id_ambiente`);
 
 --
 -- Índices para tabela `clima`
@@ -302,7 +254,9 @@ ALTER TABLE `clima`
 -- Índices para tabela `estado`
 --
 ALTER TABLE `estado`
-  ADD PRIMARY KEY (`cd_estado`);
+  ADD PRIMARY KEY (`cd_estado`),
+  ADD UNIQUE KEY `cd_estado` (`cd_estado`),
+  ADD KEY `fk_estadoregiao` (`id_regiao`);
 
 --
 -- Índices para tabela `favorito`
@@ -317,28 +271,16 @@ ALTER TABLE `imagem`
   ADD PRIMARY KEY (`cd_imagem`);
 
 --
--- Índices para tabela `ponto`
+-- Índices para tabela `info`
 --
-ALTER TABLE `ponto`
-  ADD PRIMARY KEY (`cd_ponto`);
-
---
--- Índices para tabela `ponto-roteiro`
---
-ALTER TABLE `ponto-roteiro`
-  ADD PRIMARY KEY (`cd_ponto-roteiro`);
+ALTER TABLE `info`
+  ADD PRIMARY KEY (`cd_info`);
 
 --
 -- Índices para tabela `regiao`
 --
 ALTER TABLE `regiao`
   ADD PRIMARY KEY (`cd_regiao`);
-
---
--- Índices para tabela `roteiro`
---
-ALTER TABLE `roteiro`
-  ADD PRIMARY KEY (`cd_roteiro`);
 
 --
 -- Índices para tabela `tipo`
@@ -350,17 +292,56 @@ ALTER TABLE `tipo`
 -- Índices para tabela `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`cd_usuario`);
+  ADD PRIMARY KEY (`cd_usuario`),
+  ADD UNIQUE KEY `user` (`user`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `nivel` (`nivel`);
 
 --
 -- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
+-- AUTO_INCREMENT de tabela `cidade`
+--
+ALTER TABLE `cidade`
+  MODIFY `cd_cidade` int(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de tabela `estado`
+--
+ALTER TABLE `estado`
+  MODIFY `cd_estado` int(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT de tabela `favorito`
+--
+ALTER TABLE `favorito`
+  MODIFY `cd_favorito` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `cd_usuario` int(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `cd_usuario` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Restrições para despejos de tabelas
+--
+
+--
+-- Limitadores para a tabela `cidade`
+--
+ALTER TABLE `cidade`
+  ADD CONSTRAINT `fk_cidadeambiente` FOREIGN KEY (`id_ambiente`) REFERENCES `ambiente` (`cd_ambiente`),
+  ADD CONSTRAINT `fk_cidadeclima` FOREIGN KEY (`id_clima`) REFERENCES `clima` (`cd_clima`),
+  ADD CONSTRAINT `fk_cidadetipo` FOREIGN KEY (`id_tipo`) REFERENCES `tipo` (`cd_tipo`);
+
+--
+-- Limitadores para a tabela `estado`
+--
+ALTER TABLE `estado`
+  ADD CONSTRAINT `fk_estadoregiao` FOREIGN KEY (`id_regiao`) REFERENCES `regiao` (`cd_regiao`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
