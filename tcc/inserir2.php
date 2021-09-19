@@ -58,20 +58,56 @@ if (!isset($_SESSION)) session_start();
     echo "<br><br><label><b>Informações da cidade: </b></label><br>
     <input type='text' name='info' placeholder='Digite as informações da cidade' <br>";
 
-    if (isset($_POST['estado'])&&isset($_POST['cidade'])&&isset($_POST['clima'])&&isset($_POST['tipo'])&&isset($_POST['ambiente'])&&isset($_POST['info'])) {
+
+
+    if (isset($_POST['estado'])&&isset($_POST['cidade'])&&isset($_POST['clima'])&&isset($_POST['tipo'])&&isset($_POST['ambiente'])&&isset($_POST['info'])&&isset($_FILE['foto'])) {
         $estado =$_POST['estado'];
         $cidade = $_POST['cidade'];
         $clima= $_POST['clima'];
         $tipo= $_POST['tipo'];
         $ambiente= $_POST['ambiente'];
         $info=$_POST['info'];
-        $insert = "insert into cidade (cd_cidade, id_estado, nm_cidade, id_clima, id_tipo, id_ambiente, info) values (null,'".$_POST['estado']."', '".$_POST['cidade']."', '".$_POST['clima']."', '".$_POST['tipo']."', '".$_POST['ambiente']."', '".$_POST['info']."')";
-        if ($mysqli->query($insert)=== TRUE) {
-            echo "<br> Cidade gravada com sucesso.";
-        }
-        else{
-            echo ("<br>".$mysqli->error);
+        $foto=$_FILE['foto'];
+
+        if (!empty($foto["name"])) {
+            $largura = 150;
+            $altura = 180;
+            $tamanho = 1000;
+            $error = array();
+    
+            if(!preg_match("/^image\/(pjpeg|jpeg|png|gif|bmp)$/", $foto["type"])){
+                $error[1] = "Isso não é uma imagem.";
+            } 
+    
+            $dimensoes = getimagesize($foto["tmp_name"]);
+    
+            if($dimensoes[0] > $largura) {
+                $error[2] = "A largura da imagem não deve ultrapassar ".$largura." pixels";
             }
+    
+            if($dimensoes[1] > $altura) {
+                $error[3] = "Altura da imagem não deve ultrapassar ".$altura." pixels";
+            }
+            
+            if($foto["size"] > $tamanho) {
+                    $error[4] = "A imagem deve ter no máximo ".$tamanho." bytes";
+            }
+            
+            if (count($error) == 0) {
+                preg_match("/\.(gif|bmp|png|jpg|jpeg){1}$/i", $foto["name"], $ext);
+                $nome_imagem = md5(uniqid(time())) . "." . $ext[1];
+                $caminho_imagem = "IMG/" . $nome_imagem;
+                move_uploaded_file($foto["tmp_name"], $caminho_imagem);
+    
+                $insert = "insert into cidade (cd_cidade, id_estado, nm_cidade, id_clima, id_tipo, id_ambiente, info) values (null,'".$_POST['estado']."', '".$_POST['cidade']."', '".$_POST['clima']."', '".$_POST['tipo']."', '".$_POST['ambiente']."', '".$_POST['info']."', '".$caminho_imagem."')";
+                        if ($mysqli->query($insert)=== TRUE) {
+                            echo "<br> Cidade gravada com sucesso.";
+                        }
+                        else{
+                            echo ("<br>".$mysqli->error);
+                        }
+            }
+        }
     }
 ?>
 
@@ -84,6 +120,10 @@ if (!isset($_SESSION)) session_start();
 <body>
     <br><br><label><b>Cidade: </b></label><br>
     <input type="text" name="cidade" placeholder="Digite uma cidade"><br>
+    <br>
+
+    <br><br><label><b>Foto da cidade: </b></label><br>
+    <input type="file" name="foto"><br>
     <br>
         
     <button type='submit' class='btn btn-info'>Enviar</button>

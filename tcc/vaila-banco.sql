@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19-Set-2021 às 22:54
+-- Tempo de geração: 20-Set-2021 às 02:36
 -- Versão do servidor: 10.4.19-MariaDB
 -- versão do PHP: 8.0.6
 
@@ -53,17 +53,18 @@ CREATE TABLE `cidade` (
   `id_clima` int(11) UNSIGNED NOT NULL,
   `id_tipo` int(11) UNSIGNED NOT NULL,
   `id_ambiente` int(11) UNSIGNED NOT NULL,
-  `id_info` int(11) UNSIGNED NOT NULL
+  `info` text NOT NULL,
+  `foto` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `cidade`
 --
 
-INSERT INTO `cidade` (`cd_cidade`, `id_estado`, `nm_cidade`, `id_clima`, `id_tipo`, `id_ambiente`, `id_info`) VALUES
-(1, 1, 'Aruaña', 2, 2, 1, 0),
-(2, 1, 'Aruaña', 2, 7, 1, 0),
-(3, 1, 'Uruaçu', 2, 2, 2, 0);
+INSERT INTO `cidade` (`cd_cidade`, `id_estado`, `nm_cidade`, `id_clima`, `id_tipo`, `id_ambiente`, `info`, `foto`) VALUES
+(1, 1, 'Aruaña', 2, 2, 1, '0', ''),
+(2, 1, 'Aruaña', 2, 7, 1, '0', ''),
+(3, 1, 'Uruaçu', 2, 2, 2, '0', '');
 
 -- --------------------------------------------------------
 
@@ -139,8 +140,8 @@ CREATE TABLE `favorito` (
 
 CREATE TABLE `imagem` (
   `cd_imagem` int(10) UNSIGNED NOT NULL,
-  `descricao` varchar(20) NOT NULL,
-  `id_ponto` varchar(20) NOT NULL
+  `descricao` text NOT NULL,
+  `foto` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -300,12 +301,6 @@ ALTER TABLE `usuario`
 --
 -- AUTO_INCREMENT de tabelas despejadas
 --
-
---
--- AUTO_INCREMENT de tabela `cidade`
---
-ALTER TABLE `cidade`
-  MODIFY `cd_cidade` int(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `estado`
