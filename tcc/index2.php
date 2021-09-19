@@ -1,20 +1,20 @@
 <?php
-//AQUI É O INICIO
+//AQUI É O INICIO LOGADO
 
 include 'conexao.php';
 include 'header.php';
-if (!isset($_SESSION)) session_start();
+if (isset($_SESSION['usuario'])) session_start();
 ?>
 
 <title>Vai pra lá!</title>
 <body>
 	<center>
-		<h1>VAI PRA LÁ.COM</h1>
-		<h2>Site dos viajantes</h2>
+		<h1>VAI PRA LÁ.COM </h1>
+		<h2>Site dos viajantes LOGADOS NESSE CACETE</h2>
 		<br><img src="img/placa.png" alt="Placa dos surtos" height="300px" width="270px">
 		<br>
-		<br><a href="login.php" class="btn btn-dark">LOGIN</a>
 		<a href="filtro.php" class="btn btn-dark">AINDA EM PROCESSO...</a>
+        <a href="logout.php" class="btn btn-danger">LOGOUT</a>
 
 	</center>
 </body>

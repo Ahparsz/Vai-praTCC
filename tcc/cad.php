@@ -4,11 +4,11 @@
 	include 'conexao.php';
 	include 'header.php';
 
-    if (isset($_POST['nome'])&&isset($_POST['email'])&&isset($_POST['senha'])) {
+    if (isset($_POST['nome'])&&isset($_POST['user'])&&isset($_POST['email'])&&isset($_POST['senha'])) {
         $nome = $_POST['nome'];
         $email = $_POST['email'];
         $senha = $_POST['senha'];
-		$insert = "insert into usuario (cd_usuario, nome, email, senha) values (null,'".$_POST['nome']."', '".$_POST['email']."', '".$_POST['senha']."')";
+		$insert = "insert into usuario (cd_usuario, nome, user, email, senha) values (null,'".$_POST['nome']."', '".$_POST['user']."', '".$_POST['email']."', '".$_POST['senha']."')";
 			if ($mysqli->query($insert)=== TRUE){
 				header('location:login.php');
 				//echo "CADASTRADO";
@@ -29,6 +29,10 @@
 			<div class="col-sm-12" id="meio">
                 <label>Nome:</label>
 				<input type="text" name="nome" placeholder="Digite seu nome" required>
+<br>
+
+				<label>Username:</label>
+				<input type="text" name="user" placeholder="Digite seu nome" required>
 <br>
 
                 <label>Email:</label>

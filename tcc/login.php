@@ -6,18 +6,18 @@
     include 'conexao.php';
 	include 'header.php';
 
- if (isset($_POST['email'])){
- $email = $_POST['email'];
+ if (isset($_POST['user'])){
+ $user = $_POST['user'];
  $senha = $_POST['senha'];
- $comando = "select * from usuario where email = '".$email."' and senha = '".$senha."' ";
+ $comando = "select * from usuario where user = '".$user."' and senha = '".$senha."' ";
  if($query = $mysqli->query($comando)){
 
 	if($query->num_rows==1){
 		while($dados = $query->fetch_object()){
 			$_SESSION['usuario'] = $dados->cd_usuario;
-			$_SESSION['email'] = $dados->email;
+			$_SESSION['user'] = $dados->user;
 		}
-		header('location:index.php');
+		header('location:validacao.php');
     }else{
     	echo"<br> Dados inválidos, tente de novo.";
     }
@@ -28,11 +28,11 @@
 }
 ?>
 <center>
-<form method="POST" action="index.php">
+<form method="POST" action="validacao.php">
 		<div class="row">
 			<div class="col-sm-12" id="meio">
-                <label>Email:</label>
-				<input type="text" name="email" placeholder="Digite seu email" required>
+                <label>Username:</label>
+				<input type="text" name="user" placeholder="Digite seu username" required>
 <br>
 				<label>Senha:</label>
 				<input type="password" name="senha" placeholder="Digite sua senha" required>
