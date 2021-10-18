@@ -6,16 +6,18 @@
 
     if (isset($_POST['nome'])&&isset($_POST['user'])&&isset($_POST['email'])&&isset($_POST['senha'])) {
         $nome = $_POST['nome'];
+		$user = $_POST ['user'];
         $email = $_POST['email'];
         $senha = $_POST['senha'];
-		$insert = "insert into usuario (cd_usuario, nome, user, email, senha) values (null,'".$_POST['nome']."', '".$_POST['user']."', '".$_POST['email']."', '".$_POST['senha']."')";
+    
+		$insert = "insert into usuario (cd_usuario, nome, user, email, senha, nivel, ativo, foto) values (null,'".$_POST['nome']."', '".$_POST['user']."', '".$_POST['email']."', '".$_POST['senha']."')";
 			if ($mysqli->query($insert)=== TRUE){
-				header('location:login.php');
-				//echo "CADASTRADO";
+					echo "header('Location: login.php')";
+					}
+				
 			}else{
-				echo("E-mail inválido");
-				}
-	}
+				echo("<h1><center>ERRO AO CADASTRAR. TENTE NOVAMENTE</center></h1>");
+			}
 ?>
 
 
@@ -24,7 +26,7 @@
 <body>
 <center>
 <br>
-<form method="POST" action="cad.php">
+<form method="POST" action="cad.php" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-sm-12" id="meio">
                 <label>Nome:</label>

@@ -30,7 +30,7 @@ if (!isset($_SESSION)) session_start();
     if (isset($_POST['regiao'])&&isset($_POST['estado'])) {
         $regiao=$_POST['regiao'];
         $estado = $_POST['estado'];
-        $insert = "insert into estado (cd_estado, nm_estado, id_regiao) values (null,'".$_POST['estado']."', '".$_POST['regiao']."')";
+        $insert = "insert into estado (cd_estado, id_regiao, nm_estado) values (null,'".$_POST['regiao']."', '".$_POST['estado']."')";
 
         if ($mysqli->query($insert)=== TRUE) {
             echo "<br> Estado gravado com sucesso.";
@@ -38,16 +38,6 @@ if (!isset($_SESSION)) session_start();
         else{
             echo ("<br>".$mysqli->error);
             }
-    }
-
-    $show = "select * from estado";
-
-    echo "<center><h3>Estados já cadastradas</h3></center><br>";
-
-    if ($query = $mysqli->query($show)) {
-        while ($dados = $query->fetch_object()) {
-            echo "<center><table border='1'><tr><th>Código da estado</th> <th>Nome da estado</th> <th>Está em qual regiao</th></tr> <tr><td>" . $dados->cd_estado . "</td>" . "<td>" . $dados->nm_estado . "<td>" . $dados->id_regiao . "</td></tr></table></center><br>";
-        }
     }
 ?>
 </head>
@@ -61,6 +51,19 @@ if (!isset($_SESSION)) session_start();
                             <button type='reset' class='btn btn-info'>Limpar</button>
                             <a href='inserir2.php' class='btn btn-info'>INSERIR CIDADES</a>
                             <a href='restrito.php' class='btn btn-info'>VOLTAR</a>
+
+                            <?php
+
+                                $show = "select * from estado";
+
+                                echo "<center><h3>Estados já cadastradas</h3></center><br>";
+
+                                if ($query = $mysqli->query($show)) {
+                                    while ($dados = $query->fetch_object()) {
+                                        echo "<center><table border='1'><tr><th>Código da estado</th> <th>Nome da estado</th> <th>Está em qual regiao</th></tr> <tr><td>" . $dados->cd_estado . "</td>" . "<td>" . $dados->nm_estado . "<td>" . $dados->id_regiao . "</td>" . "<td><button type='button' class='btn btn-success' id='editar'>Editar</button></td>" . "<td><button type='button' class='btn btn-danger' id='excluir'>Excluir</button></td></tr></table></center><br>";
+                                     }
+                                }
+                            ?>
                         </div>
                     </div>
                 </form>

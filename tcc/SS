@@ -1,41 +1,111 @@
-if (!empty($foto["name"])) {
-        $largura = 150;
-        $altura = 180;
-        $tamanho = 1000;
-        $error = array();
+$sql = "SELECT * FROM usuario";
+	
+	while ($obj = mysql_fetch_object($sql)){
+    		echo "<img src='img/perfil/".$obj->foto."' alt='Foto de exibição' /><br />";
+    		echo "<b>Nome:</b> " . $obj->nome . "<br />";
+			echo "<b>User:</b> " . $obj->user . "<br />";
+    		echo "<b>Email:</b> " . $obj->email . "<br /><br />";			
+		}
 
-        if(!preg_match("/^image\/(pjpeg|jpeg|png|gif|bmp)$/", $foto["type"])){
-            $error[1] = "Isso não é uma imagem.";
-        } 
 
-        $dimensoes = getimagesize($foto["tmp_name"]);
 
-        if($dimensoes[0] > $largura) {
-            $error[2] = "A largura da imagem não deve ultrapassar ".$largura." pixels";
-        }
+<?php
+//AQUI É O CADASTRO
 
-        if($dimensoes[1] > $altura) {
-            $error[3] = "Altura da imagem não deve ultrapassar ".$altura." pixels";
-        }
-        
-        if($foto["size"] > $tamanho) {
-                $error[4] = "A imagem deve ter no máximo ".$tamanho." bytes";
-        }
-        
+	include 'conexao.php';
+	include 'header.php';
+
+    if (isset($_POST['nome'])&&isset($_POST['user'])&&isset($_POST['email'])&&isset($_POST['senha'])&&isset($_FILE['foto'])) {
+        $nome = $_POST['nome'];
+        $email = $_POST['email'];
+        $senha = $_POST['senha'];
+		$foto = $_FILE['foto'];
+            
         if (count($error) == 0) {
-        
-            preg_match("/\.(gif|bmp|png|jpg|jpeg){1}$/i", $foto["name"], $ext);
-            $nome_imagem = md5(uniqid(time())) . "." . $ext[1];
-            $caminho_imagem = "IMG/" . $nome_imagem;
-            move_uploaded_file($foto["tmp_name"], $caminho_imagem);
+                $extensao = strtolwer(substr($_FILES['foto']['name'], -4));
+                $nome_imagem = md5(uniqid(time())) . $extensao;
+                $caminho_imagem = "img/";
+                move_uploaded_file($_FILES['arquivo']["tmp_name"], $caminho_imagem.$nome_imagem);
+    
+		$insert = "insert into usuario (cd_usuario, nome, user, email, senha, nivel, ativo, foto) values (null,'".$_POST['nome']."', '".$_POST['user']."', '".$_POST['email']."', '".$_POST['senha']."', '1', '1', '".$nome_imagem."')";
+			if ($mysqli->query($insert)=== TRUE){
+				$sql = "SELECT * usuario";
+				if($query = $mysqli->query($sql)){
+					if($query->num_rows==1){
+						while($dados = $query->fetch_object()){
+							$_SESSION['usuario'] = $dados->cd_usuario;
+							$_SESSION['user'] = $dados->user;
+							$_SESSION['nivel'] = $dados->nivel;
+							$_SESSION['senha'] = $dados->senha;
+							$_SESSION['email'] = $dados->email;
+							$_SESSION['foto'] = $dados->foto;
+							$_SESSION['nome'] = $dados->nome;
+						}
+					}
+				}
+				
+			}else{
+				echo("<h1><center>ERRO AO CADASTRAR. TENTE</center></h1>");
+			}
+		}
+	}
+?>
 
-            $insert = "insert into cidade (cd_cidade, id_estado, nm_cidade, id_clima, id_tipo, id_ambiente, info) values (null,'".$_POST['estado']."', '".$_POST['cidade']."', '".$_POST['clima']."', '".$_POST['tipo']."', '".$_POST['ambiente']."', '".$_POST['info']."', '".$caminho_imagem."')";
-                    if ($mysqli->query($insert)=== TRUE) {
-                        echo "<br> Cidade gravada com sucesso.";
-                    }
-                    else{
-                        echo ("<br>".$mysqli->error);
-                    }
-        }
-    }
-        
+
+
+<title>Cadastro</title>
+<body>
+<center>
+<br>
+<form method="POST" action="cad.php" enctype="multipart/form-data">
+		<div class="row">
+			<div class="col-sm-12" id="meio">
+			<label><b>Foto: </b></label>
+    		<input type="file" name="foto">
+<br>
+                <label>Nome:</label>
+				<input type="text" name="nome" placeholder="Digite seu nome" required>
+<br>
+
+				<label>Username:</label>
+				<input type="text" name="user" placeholder="Digite seu username" required>
+<br>
+
+                <label>Email:</label>
+				<input type="email" name="email" placeholder="Digite seu email" required>
+<br>
+				<label>Senha:</label>
+				<input type="password" name="senha" placeholder="Digite sua senha" required>
+			</div>
+		</div>
+<br>
+<br>
+		<div class="row">
+			<div class="col-sm-12" id="fim">
+				<input type="submit" class="btn btn-dark" value="Cadastrar">
+		</div>
+</form>
+	</div>
+</center>
+</body>
+
+<style>
+	body{
+		background: #ffe5cc;
+		margin-top: 50px;
+	}
+</style>
+</html>
+
+$sql = "SELECT * usuario";
+				if($query = $mysqli->query($sql)){
+					if($query->num_rows==1){
+						while($dados = $query->fetch_object()){
+							$_SESSION['usuario'] = $dados->cd_usuario;
+							$_SESSION['user'] = $dados->user;
+							$_SESSION['nivel'] = $dados->nivel;
+							$_SESSION['senha'] = $dados->senha;
+							$_SESSION['email'] = $dados->email;
+							$_SESSION['nome'] = $dados->nome;
+							echo "CADASTRADO";
+						}

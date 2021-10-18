@@ -8,11 +8,10 @@ include 'header.php';
   $nivel_necessario = 2;
 
     // Verifica se não há a variável da sessão que identifica o usuário
-    if (!isset($_SESSION['usuario']) OR ($_SESSION['nivel'] <$nivel_necessario)) {
-        session_destroy();
-    // Redireciona o visitante de volta pro login
-    header("Location: index2.php"); exit;
-}
+    if (!isset($_SESSION['usuario']) OR ($_SESSION['nivel'] < $nivel_necessario)) {
+        header("Location: index2.php"); exit;
+    }
+        
 
   ?>
 
