@@ -106,7 +106,7 @@ if (!isset($_SESSION)) session_start();
 
                                 if ($query = $mysqli->query($show)) {
                                     while ($dados = $query->fetch_object()) {
-                                        echo "<center><table border='3'><tr><th>Código da cidade</th> <th>Nome da cidade</th> <th>Está em qual estado</th> <th> da cidade</th> <th>Clima da cidade</th> <th>Tipo da cidade</th> <th>Info da cidade</th></tr><tr><td>" . $dados->cd_cidade . "</td>" . "<td>" . $dados->nm_cidade . "</td>" . "<td>" . $dados->id_estado . "</td>" . "<td>" . $dados->id_clima . "</td>" . "<td>" . $dados->id_ambiente . "</td>" . "<td>" . $dados->id_tipo . "</td>" . "<td>" . $dados->info . "</td>" . "<td><button type='button' class='btn btn-success' id='editar'>Editar</button></td>" . "<td><button type='button' class='btn btn-danger' id='excluir'>Excluir</button></td></tr></table></center><br>";
+                                        echo "<center><table border='3'><tr><th>Código da cidade</th> <th>Nome da cidade</th> <th>Está em qual estado</th> <th> da cidade</th> <th>Clima da cidade</th> <th>Tipo da cidade</th> <th>Info da cidade</th></tr><tr><td>" . $dados->cd_cidade . "</td>" . "<td>" . $dados->nm_cidade . "</td>" . "<td>" . $dados->id_estado . "</td>" . "<td>" . $dados->id_clima . "</td>" . "<td>" . $dados->id_ambiente . "</td>" . "<td>" . $dados->id_tipo . "</td>" . "<td>" . $dados->info . "</td>" . "<td><button type='button' class='btn btn-success' id='editar'>Editar</button></td>" . "<td><a href=excluir.php?codigo=$dados->cd_cidade class='btn btn-danger' type='button'>Excluir</button></td></tr></table></center><br>";
                                     }
                                 }
                             ?> 

@@ -60,7 +60,7 @@ if (!isset($_SESSION)) session_start();
 
                                 if ($query = $mysqli->query($show)) {
                                     while ($dados = $query->fetch_object()) {
-                                        echo "<center><table border='1'><tr><th>Código da estado</th> <th>Nome da estado</th> <th>Está em qual regiao</th></tr> <tr><td>" . $dados->cd_estado . "</td>" . "<td>" . $dados->nm_estado . "<td>" . $dados->id_regiao . "</td>" . "<td><button type='button' class='btn btn-success' id='editar'>Editar</button></td>" . "<td><button type='button' class='btn btn-danger' id='excluir'>Excluir</button></td></tr></table></center><br>";
+                                        echo "<center><table border='1'><tr><th>Código da estado</th> <th>Nome da estado</th> <th>Está em qual regiao</th></tr> <tr><td>" . $dados->cd_estado . "</td>" . "<td>" . $dados->nm_estado . "<td>" . $dados->id_regiao . "</td>" . "<td><button type='button' class='btn btn-success' id='editar'>Editar</button></td>" . "<td><button type='button' class='btn btn-danger' id='excluir' href=''>Excluir</button></td></tr></table></center><br>";
                                      }
                                 }
                             ?>
