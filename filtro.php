@@ -18,7 +18,7 @@ if(isset($_POST['regiao'])) {
 }
 
 
-//AQUI QUANDO APERTAR NO ESTADO
+//AQUI QUANDO APERTAR NO ESTADO, APARECE AS CIDADES
 if(isset($_POST['estado'])) {
     $estado = $_POST['estado'];
         $cidades="";
@@ -30,8 +30,10 @@ if(isset($_POST['estado'])) {
                             $nm_cidade=$dados->nm_cidade;
 
                             $cidades.="
-                            <h4><a href='cidade.php' id='cidade' name='cidade' class='cidade' value='".$_SESSION['cd_cidade']."'>".$nm_cidade."</a></h4>
-                            <br>";	
+                            <br>
+                            <form method='post' action='cidade.php'>
+                            <h4><button type='submit' id='cidade' name='cidade' class='cidade' value='".$_SESSION['cd_cidade']."'>".$nm_cidade."</button></h4>
+                            </form>";
                         }
                     }  
                     echo $cidades;
@@ -39,7 +41,7 @@ if(isset($_POST['estado'])) {
 
 }
 
-//AQUI QUANDO APERTAR NO CLIMA
+//AQUI QUANDO APERTAR NO CLIMA, MUDA LÁ
 if(isset($_POST['clima'])) {
     $clima = $_POST['clima'];
         $cidadeclima="";
@@ -51,10 +53,8 @@ if(isset($_POST['clima'])) {
                             $info=$dados->info;
 
                             $cidadeclima.="
-                            <br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                            <br><h1>".$nm_cidade."</h1>
-                            <br> ".$info."<br>
-                            <br><button class='favoritar' class='btn btn-danger'>FAVORITAR</button><br>";
+                            <br>
+                            <h4><a href='cidade.php' id='cidade' name='cidade' class='cidade' value='".$_SESSION['cd_cidade']."'>".$nm_cidade."</a></h4>";
 
                         }
                     }

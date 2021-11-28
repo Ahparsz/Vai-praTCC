@@ -1,9 +1,7 @@
 <?php
 //AQUI É O INICIO
-
 include 'conexao.php';
 include 'css/header.php';
-if (!isset($_SESSION)) session_start();
 ?>
 
 <html>
@@ -113,14 +111,15 @@ if (!isset($_SESSION)) session_start();
 			</ul>
             
             <ul class='nav justify-content-end'>
-                <form method='post' action='cidade.php'>
-                    <input type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
-                    <button class='btn btn-success' type='submit'>Procurar</button>
-                </form>
+              <form method='post' action='pesquisa.php' class='form-inline my-2 my-lg-0'>
+                  <input class='form-control mr-sm-2' type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
+                  <button class='btn btn-outline-warning' type='submit'>Procurar</button>
+              </form>
             </ul>
 		 </nav>";
 		}
 ?>
+
 <?php
 	//AQUI É O NÃO LOGADO
 	if (!isset($_SESSION['usuario'])){
@@ -135,43 +134,78 @@ if (!isset($_SESSION)) session_start();
     </ul>
     
     <ul class='nav justify-content-end'>
-        <form method='post' action='cidade.php'>
-            <input type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
-            <button class='btn btn-success' type='submit'>Procurar</button>
-        </form>
+      <form method='post' action='pesquisa.php' class='form-inline my-2 my-lg-0'>
+        <input class='form-control mr-sm-2' type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
+        <button class='btn btn-outline-warning' type='submit'>Procurar</button>
+      </form>
     </ul>
 	 </nav>";
 	}
 ?>
 
 <center>
+<div id='cidade'>
 <?php
-    if(isset($_SESSION['cd_cidade'])){
-        $cidades="";
-        $getcidade = "SELECT * FROM cidade WHERE cidade.cd_estado =".$_SESSION['cd_cidade'];
-                if($query = $mysqli->query($getcidade)){
-                    if($query->num_rows>0){
-                        while($dados = $query->fetch_object()){
-                            $cd_cidade = $dados->cd_cidade;
-                            $nm_cidade = $dados->nm_cidade;
-                            $info = $dados->info;
-                            $foto = $dados->foto;
+  if(isset($_POST['cd_cidade'])){  
 
-                            $cidades.="
-                            <br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    $sql = "SELECT * FROM cidade WHERE cidade.cd_estado =".$_POST['cd_cidade'];
+    
+    if($query = $mysqli->query($sql)){
+      while($dados = $query->fetch_object()){
+        $_SESSION['cd_cidade'] = $dados->cd_cidade;
 
-                            <br><h1>".$nm_cidade."</h1>
-                            <br> ".$info."<br>
-                            <br><button id='favoritar' class='btn btn-danger'>FAVORITAR</button><br>
-                            <br>";		
-                        }
-                    }  
-                    echo $cidades;
-                }
+        echo "
+        <br>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        <div id='map'></div>
+        <script async src='https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap'></script>
+        
+        <img src='/img/cidade/".$dados->cd_cidade.".jpg'>
+        <br><h1>".$dados->nm_cidade."</h1>
+        <br> ".$dados->info."<br>
+        <br><button id='favoritar' value='".$_SESSION['cd_cidade']."' class='btn btn-danger'>FAVORITAR</button>
+        
+        <br>";	
+      }
     }
+  }
 ?>
-
-<?php include 'pesquisa.php'; ?>
+</div>
 </center>
-      </body>
-    </html>
+</body>
+</html>
+
+<script type="text/javascript">
+      $(document).ready(function(){
+          $("#favoritar").on("click", function(){
+			    var selecionado = $(this);
+			    var op_fave = selecionado.val();
+              
+			    $.ajax({
+              url: "botoes.php",
+              type: "POST",
+              data: 'favoritar='+op_fave,
+              dataType: "html"
+
+              }).done(function(resposta) {
+                  $('#cidade').html(resposta);
+				
+              }).fail(function(jqXHR, textStatus ) {
+                  console.log("Request failed: " + textStatus);
+
+              }).always(function() {
+                  console.log("completou");
+              });				
+          });
+      });
+</script>
+
+<script>
+      let map;
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: -33.897, lng: 250.644 },
+    zoom: 8,
+  });
+}
+</script>

@@ -89,10 +89,10 @@ if (!isset($_SESSION)) session_start();
 			</ul>
             
             <ul class='nav justify-content-end'>
-                <form method='post' action='pesquisa.php'>
-                    <input type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
-                    <button class='btn btn-success' type='submit'>Procurar</button>
-                </form>
+				<form method='post' action='pesquisa.php' class='form-inline my-2 my-lg-0'>
+					<input class='form-control mr-sm-2' type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
+					<button class='btn btn-outline-warning' type='submit'>Procurar</button>
+		  		</form>
             </ul>
 		 </nav>";
 		}
@@ -112,10 +112,10 @@ if (!isset($_SESSION)) session_start();
     </ul>
     
     <ul class='nav justify-content-end'>
-        <form method='post' action='pesquisa.php'>
-            <input type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
-            <button class='btn btn-success' type='submit'>Procurar</button>
-        </form>
+		<form method='post' action='pesquisa.php' class='form-inline my-2 my-lg-0'>
+			<input class='form-control mr-sm-2' type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
+			<button class='btn btn-outline-warning' type='submit'>Procurar</button>
+  		</form>
     </ul>
 	 </nav>";
 	}
@@ -128,7 +128,7 @@ if (!isset($_SESSION)) session_start();
 			<div id='sobre'>
 				<h1>Quem somos:</h1>
 				<p>Nossa empresa visa solucionar os problemas de diversos brasileiros que encontram dificuldades na hora de se aventurar por aí!
-				Somos uma companhia de viagens que busca proporcionar o melhor roteiro e destino de viagem para você, com um site especializado e simplificado para facilitar sua vida! Disponibilizamos as melhores pesquisas sobre todo o Brasil, de Norte a Sul, informações e imagens sempre atualizadas e localização em tempo real. 
+				Somos uma companhia de viagens que busca proporcionar o melhor destino de viagem para você, com um site especializado e simplificado para facilitar sua vida! Disponibilizamos as melhores pesquisas sobre todo o Brasil, de Norte a Sul, informações e imagens sempre atualizadas e localização em tempo real. 
 				Pretendemos ter o maior acesso de empresas possíveis, para proporcionar a melhor experiência com melhor custo benefício para que a sua viagem se torne cada vez mais fácil e prazerosa, provendo memórias incríveis por todo o Brasil!
 				Pois você é a nossa prioridade!</p> 
 			</div>

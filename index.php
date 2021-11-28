@@ -115,10 +115,10 @@ if (!isset($_SESSION)) session_start();
 			</ul>
             
             <ul class='nav justify-content-end'>
-                <form method='post' action='pesquisa.php'>
-                    <input type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
-                    <button class='btn btn-success' type='submit'>Procurar</button>
-                </form>
+              <form method='post' action='pesquisa.php' class='form-inline my-2 my-lg-0'>
+                <input class='form-control mr-sm-2' type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
+                <button class='btn btn-outline-warning' type='submit'>Procurar</button>
+              </form>
             </ul>
 		 </nav>";
 		}
@@ -138,9 +138,9 @@ if (!isset($_SESSION)) session_start();
     </ul>
     
     <ul class='nav justify-content-end'>
-        <form method='post' action='pesquisa.php'>
-            <input type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
-            <button class='btn btn-success' type='submit'>Procurar</button>
+        <form method='post' action='pesquisa.php' class='form-inline my-2 my-lg-0'>
+          <input class='form-control mr-sm-2' type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
+          <button class='btn btn-outline-warning' type='submit'>Procurar</button>
         </form>
     </ul>
 	 </nav>";

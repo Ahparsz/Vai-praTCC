@@ -74,19 +74,27 @@ if (isset($_SESSION['usuario'])){
           <li class="nav-item"><a href="sobre.php" class="nav-link">Sobre</a></li>
         </ul>
 
-    <ul class='nav justify-content-end'>
-        <form method='post' action='pesquisa.php'>
-            <input type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
-            <button class='btn btn-success' type='submit'>Procurar</button>
-        </form>
-    </ul>
+        <ul class='nav justify-content-end'>
+		    <form method='post' action='pesquisa.php' class='form-inline my-2 my-lg-0'>
+		    	<input class='form-control mr-sm-2' type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
+		    	<button class='btn btn-outline-warning' type='submit'>Procurar</button>
+  		    </form>
+        </ul>
     </nav>
     <br>
     <div class='container'>
         <div class='row'>
             <div class='col-sm-6'>
                 <div class='card text-center'>
-                    <img class='img-thumbnail img-responsive img-top mx-auto d-block my-4' src="img/cu.jpg" alt="" width='50' id='foto'>
+                    <?php
+                        $show = "SELECT * FROM usuario WHERE usuario.cd_usuario=".$usuario;
+                        if ($query = $mysqli->query($show)) {
+                            while ($dados = $query->fetch_object()) {
+                                $foto = $dados->cd_usuario;
+                                echo "<img class='img-thumbnail img-responsive img-top mx-auto d-block my-4' src='/img/usuario/".$foto.".jpg' alt='' width='50' id='foto'>";
+                            }
+                        }
+                    ?>
                     <div class='card-body'>
                     <h4 class='text-center'>Bem-vindo, <?php echo $_SESSION['nome'];?></h4>
                         <p class='list-group-item'>
@@ -97,8 +105,14 @@ if (isset($_SESSION['usuario'])){
                                 <br> Senha: ".$senha; 
                             ?>
                         </p>
+                        <br>
                         <a href='logout.php' class='btn btn-md btn-danger float-right'>Sair</a>
-                        <button class='btn btn-success float-left' href='restrito.php'>Adiministrar</button>
+                            <?php
+                                $nivel_necessario = 1;
+                                if (!isset($_SESSION['usuario']) OR ($_SESSION['nivel'] > $nivel_necessario)) {
+                                    echo "<a class='btn btn-success float-left' href='restrito.php'>Adiministrar</a>";
+                                }
+                            ?>
                     </div>
                 </div>
             </div>
@@ -107,26 +121,24 @@ if (isset($_SESSION['usuario'])){
                 <div class='card'>
                     <div class='card-body'>
                         <h5 class='card-title list-group-item my-2'>Lista de favoritos</h5>
-                            <?php
-                                $show = "SELECT * FROM favorito WHERE favorito.id_usuario=".$usuario;
-                                        if ($query = $mysqli->query($show)) {
-                                            while ($dados = $query->fetch_object()) {
-                                                echo "<center>
-                                                    <table border='1'>
-                                                        <tr>
-                                                        <th>Cidade favorita</th>
-                                                        </tr> 
-                                                        
-                                                        <tr>
-                                                        <td>" . $dados->id_cidade . "</td>
-                                                        <td>" . $dados->id_usuario . "</td>
-                                                        <td><a href=excluir.php?codigo_favorito=$dados->cd_favorito class='btn btn-danger' type='button'>Excluir</button></td>
-                                                        </tr>
-                                                    </table>
-                                                    </center><br>";
-                                            }
-                                        }
-                            ?>    
+                            <center>
+                                <table border='1'>
+                                    <?php
+                                        $show = "SELECT * FROM favorito, cidade WHERE favorito.id_usuario=".$usuario." AND cidade.cd_cidade=favorito.id_cidade";
+                                                if ($query = $mysqli->query($show)) {
+                                                    while ($dados = $query->fetch_object()) {
+                                                        $_SESSION['cd_cidade'] = $dados->cd_cidade;
+                                                        echo "
+                                                            <tr>
+                                                            <td><a href='cidade.php' id='cidade' name='cidade' class='cidade' value='".$_SESSION['cd_cidade']."'>".$dados->nm_cidade."</a></td>
+                                                            <td><a href=excluir.php?codigo_favorito=$dados->cd_favorito class='btn btn-danger' type='button'>Excluir</button></td><br>
+                                                            </tr>";
+                                                    }
+                                                }
+                                    ?> 
+                                </table>
+                            </center>
+                        <br>  
                     </div>
                 </div>
             </div>

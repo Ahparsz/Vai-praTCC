@@ -74,10 +74,10 @@ if (!isset($_SESSION)) session_start();
 			</ul>
             
             <ul class='nav justify-content-end'>
-                <form method='post' action='pesquisa.php'>
-                    <input type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
-                    <button class='btn btn-success' type='submit'>Procurar</button>
-                </form>
+            <form method='post' action='pesquisa.php' class='form-inline my-2 my-lg-0'>
+                <input class='form-control mr-sm-2' type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
+                <button class='btn btn-outline-warning' type='submit'>Procurar</button>
+            </form>
             </ul>
 		 </nav>";
 		}
@@ -97,38 +97,56 @@ if (!isset($_SESSION)) session_start();
     </ul>
     
     <ul class='nav justify-content-end'>
-        <form method='post' action='pesquisa.php'>
-            <input type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
-            <button class='btn btn-success' type='submit'>Procurar</button>
+        <form method='post' action='pesquisa.php' class='form-inline my-2 my-lg-0'>
+            <input class='form-control mr-sm-2' type='search' id='pesquisa' name='pesquisa' placeholder='Procure aqui'>
+            <button class='btn btn-outline-warning' type='submit'>Procurar</button>
         </form>
     </ul>
 	 </nav>";
 	}
 ?>
+
     <br>
 
     <div class='container-fluid'>
         <div class='row'>
             <div class='col-sm-10 offset-md-1 bg-white' id='caixas'>
-                    <?php
-                        if(isset($_POST['regiao'])) {
-                            $regiao = $_POST['regiao'];
-
-                            $sql = "SELECT * FROM regiao WHERE regiao.cd_regiao =".$regiao;
-                                if($query = $mysqli->query($sql)){
-                                    if($query->num_rows>0){
-                                        while($dados = $query->fetch_object()){
-                                            $_SESSION['cd_regiao'] = $dados->cd_regiao;
-                                            $nm_regiao = $dados->nm_regiao;			
-                                            $info = $dados->info;		
-                                        }
-                                        echo "<h4>".$nm_regiao."</h4>
-                                        <p class='text-justify'>".$info."</p>";
+                <?php
+                    if(isset($_POST['regiao'])) {
+                        $regiao = $_POST['regiao'];
+                        
+                        $sql = "SELECT * FROM regiao WHERE regiao.cd_regiao =".$regiao;
+                            if($query = $mysqli->query($sql)){
+                                if($query->num_rows>0){
+                                    while($dados = $query->fetch_object()){
+                                        $_SESSION['cd_regiao'] = $dados->cd_regiao;
+                                        
+                                        echo "<h4>".$dados->nm_regiao."</h4>
+                                        <p class='text-justify'>".$dados->info."</p>";
                                     }
                                 }
-                        }
-                    ?>
+                            }
+                    }
+                ?>
             </div>
+            
+            <?php
+            //FOTO DA REGIAO
+                if(isset($_POST['regiao'])) {
+                    $regiao = $_POST['regiao'];
+                    
+                    $sql = "SELECT * FROM regiao WHERE regiao.cd_regiao =".$regiao;
+                        if($query = $mysqli->query($sql)){
+                            if($query->num_rows>0){
+                                while($dados = $query->fetch_object()){
+                                    echo "<img src='/img/regiao/".$dados->cd_regiao.".jpg";
+                                }
+                                
+                            }
+                        }
+                }
+            ?>
+            
         </div>
 
         <div class='row'>
@@ -268,6 +286,68 @@ if (!isset($_SESSION)) session_start();
                 url: "filtro.php",
                 type: "POST",
                 data: 'estado='+op_estado,
+                dataType: "html"
+ 
+                }).done(function(resposta) {
+                    $('#cidade_local').html(resposta);
+ 
+                }).fail(function(jqXHR, textStatus ) {
+                    console.log("Request failed: " + textStatus);
+ 
+                }).always(function() {
+                    console.log("completou");
+                });
+            });
+
+            $("#clima").on("click", function(){
+				var selecionado = $('#clima checkbox:selected');
+				var op_clima = selecionado.val();
+                
+				$.ajax({
+                url: "filtro.php",
+                type: "POST",
+                data: 'clima='+op_clima,
+                dataType: "html"
+ 
+                }).done(function(resposta) {
+                    $('#cidade_local').html(resposta);
+					
+                }).fail(function(jqXHR, textStatus ) {
+                    console.log("Request failed: " + textStatus);
+ 
+                }).always(function() {
+                    console.log("completou");
+                });
+				
+            });
+
+			$("#tipo").on("click", function(){
+				var selecionado = $('#tipo option:selected');
+				var op_tipo = selecionado.val();
+                $.ajax({
+                url: "filtro.php",
+                type: "POST",
+                data: 'tipo='+op_tipo,
+                dataType: "html"
+ 
+                }).done(function(resposta) {
+                    $('#cidade_local').html(resposta);
+ 
+                }).fail(function(jqXHR, textStatus ) {
+                    console.log("Request failed: " + textStatus);
+ 
+                }).always(function() {
+                    console.log("completou");
+                });
+            });
+
+            $("#ambiente").on("click", function(){
+				var selecionado = $('#ambiente option:selected');
+				var op_tipo = selecionado.val();
+                $.ajax({
+                url: "filtro.php",
+                type: "POST",
+                data: 'tipo='+op_tipo,
                 dataType: "html"
  
                 }).done(function(resposta) {

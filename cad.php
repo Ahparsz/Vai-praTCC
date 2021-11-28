@@ -5,19 +5,48 @@
 	include 'css/header.php';
 
 
-    if (isset($_POST['nome']) && isset($_POST['user']) && isset($_POST['email']) && isset($_POST['senha'])) {
+if (isset($_POST['nome']) && isset($_POST['user']) && isset($_POST['email']) && isset($_POST['senha'])) {
 		$nome = $_POST['nome'];
 		$user = $_POST ['user'];
         $email = $_POST['email'];
         $senha = $_POST['senha'];
 
 		$insert = "INSERT INTO usuario (cd_usuario, nome, user, email, senha, nivel, ativo, foto) VALUES (null,'".$nome."', '".$user."', '".$email."', '".$senha."', 1, 1, null)";
+		
 		if ($mysqli->query($insert)===TRUE){
-					header('Location: login.php');
-					}
-					echo 'erro';
-				
-	}
+        if($query = $mysqli->query("select * from usuario where nome = '".$nome."' and user = '".$user."'")){
+            while($dados = $query->fetch_object()){
+                echo $dados->cd_usuario;
+
+                if(isset($_FILES['foto'])){
+                    $errors= array();
+                    $file_name = $_FILES['foto']['name'];
+                    $file_size =$_FILES['foto']['size'];
+                    $file_tmp =$_FILES['foto']['tmp_name'];
+                    $file_type=$_FILES['foto']['type'];
+                    
+                    $extensions= array("jpeg","jpg","png");
+                    
+                    $extension = pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
+                    
+                    if($file_size > 2097152){
+                       $errors[]='File size must be excately 2 MB';
+                    }
+                    
+                    if(empty($errors)==true){
+                       move_uploaded_file($file_tmp,"img/usuario/".$dados->cd_usuario.".jpg");
+                       echo 'Sucesso';
+                    }else{
+                       print_r($errors);
+                    }
+                }
+            }
+            header('Location: login.php');
+        }
+    }			
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -149,6 +178,10 @@
           <br>
           <div class="row full-box">
             <div class="col-sm-12" style="text-align: center;">
+			  <input type="file" class="btn btn-danger btn-md" name="foto" id='foto' placeholder="Adicione uma foto">
+            </div>
+
+			<div class="col-sm-12" style="text-align: center;">
 			  <input type="submit" class="btn btn-danger btn-md" value="Cadastrar">
             </div>
           </div>

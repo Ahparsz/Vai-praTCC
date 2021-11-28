@@ -9,18 +9,18 @@ if (isset($_SESSION['usuario'])){
     $user = $_SESSION['user'];
 }
 
-if (isset($_POST['estado']) && isset($_POST['cidade']) && isset($_POST['info']) && isset($_POST['coordenadas'])){
+if (isset($_POST['estado']) && isset($_POST['cidade']) && isset($_POST['info']) && isset($_POST['coordenadas']) && isset($_FILES['foto'])){
     $estado =$_POST['estado'];
     $cidade = $_POST['cidade'];
     $info = $_POST['info'];
     $coordenadas = $_POST['coordenadas'];
+    $foto = $_FILES['foto'];
     
-    $insert = "insert into cidade (cd_cidade, id_estado, nm_cidade, info, coordenadas, foto) values (null, ".$estado.", '".$cidade."', '".$info."', '".$coordenadas."', null)";
+    $insert = "insert into cidade (cd_cidade, id_estado, nm_cidade, info, coordenadas, foto) values (null, ".$estado.", '".$cidade."', '".$info."', '".$coordenadas."', '".$foto."')";
     if ($mysqli->query($insert)===TRUE){
-
         if($query = $mysqli->query("select * from cidade where nm_cidade = '".$cidade."' and info = '".$info."'")){
-            while($data = $query->fetch_object()){
-                echo $data->cd_cidade;
+            while($dados = $query->fetch_object()){
+                echo $dados->cd_cidade;
 
                 if(isset($_FILES['foto'])){
                     $errors= array();
@@ -38,7 +38,7 @@ if (isset($_POST['estado']) && isset($_POST['cidade']) && isset($_POST['info']) 
                     }
                     
                     if(empty($errors)==true){
-                       move_uploaded_file($file_tmp,"img/cidade/".$data->cd_cidade.".jpg");
+                       move_uploaded_file($file_tmp,"img/cidade/".$dados->cd_cidade.".jpg");
                        echo "Success";
                     }else{
                        print_r($errors);
