@@ -1,0 +1,79 @@
+#bolotas{
+    width:150px;
+    height:150px;
+    float:left;
+    margin-left:20px;
+    text-align:center;
+    line-height: 150px;
+    font-size:20px;
+    border-radius:50%;
+    background-color:#3d00a9;
+    transition:all 0.4s ease-out;
+  }
+  #bolotas:hover{
+    cursor:pointer;
+    transform:translateY(-20px);
+    box-shadow: 4px 30px 16px 2px #888;
+  }
+  .carousel-inner img{
+    width:100%; 
+    position: relative;
+    margin: auto;
+  }
+  .carousel-indicators{
+    bottom:auto;
+    position: absolute;
+    left:60%;
+    top:90%;
+  }
+  .carousel-caption{
+    top: 30%;
+    bottom: auto;
+    position: absolute;
+    left: 70%;
+    border-radius: 10px;
+    margin: 0px;
+    width: 20%;
+  }
+  #buttonca{
+    background: none;
+    border:0;
+    position: relative;
+    transition: all 500ms ease-in-out;
+  }
+  #buttonca:after{
+    content:'';
+    transition: inherit; 
+    width: 40px;
+    height: 40px;
+    border-radius:50%;
+    background-color:#fd096b;
+    position: absolute;
+    top:-28%;
+    left:-10px;
+    opacity: 0.3;
+    z-index:-1;
+  }
+  #buttonca:hover:after{
+    width: calc(100% + 20px);
+    border-radius: 20px;
+    opacity: 0.6;
+
+  }
+  
+  #botao-card{
+    float:right;
+  }
+  @media (max-width: 1024px){
+    .carousel-inner {
+      width: 100%; 
+      position: relative;
+    }
+  }
+  
+  #map {
+    height: 400px;
+    /* The height is 400 pixels */
+    width: 100%;
+    /* The width is the width of the web page */
+  }

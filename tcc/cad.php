@@ -2,63 +2,190 @@
 //AQUI É O CADASTRO
 
 	include 'conexao.php';
-	include 'header.php';
+	include 'css/header.php';
 
-    if (isset($_POST['nome'])&&isset($_POST['user'])&&isset($_POST['email'])&&isset($_POST['senha'])) {
-        $nome = $_POST['nome'];
+
+if (isset($_POST['nome']) && isset($_POST['user']) && isset($_POST['email']) && isset($_POST['senha'])) {
+		$nome = $_POST['nome'];
 		$user = $_POST ['user'];
         $email = $_POST['email'];
         $senha = $_POST['senha'];
-    
-		$insert = "insert into usuario (cd_usuario, nome, user, email, senha, nivel, ativo, foto) values (null,'".$_POST['nome']."', '".$_POST['user']."', '".$_POST['email']."', '".$_POST['senha']."')";
-			if ($mysqli->query($insert)=== TRUE){
-					echo "header('Location: login.php')";
-					}
-				
-			}else{
-				echo("<h1><center>ERRO AO CADASTRAR. TENTE NOVAMENTE</center></h1>");
-			}
+
+		$insert = "INSERT INTO usuario (cd_usuario, nome, user, email, senha, nivel, ativo, foto) VALUES (null,'".$nome."', '".$user."', '".$email."', '".$senha."', 1, 1, null)";
+		
+		if ($mysqli->query($insert)===TRUE){
+        if($query = $mysqli->query("select * from usuario where nome = '".$nome."'")){
+            while($dados = $query->fetch_object()){
+                echo $dados->cd_usuario;
+
+                if(isset($_FILES['foto'])){
+                    $errors= array();
+                    $file_name = $_FILES['foto']['name'];
+                    $file_size =$_FILES['foto']['size'];
+                    $file_tmp =$_FILES['foto']['tmp_name'];
+                    $file_type=$_FILES['foto']['type'];
+                    
+                    $extensions= array("jpeg","jpg","png");
+                    
+                    $extension = pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION);
+                    
+                    if($file_size > 2097152){
+                       $errors[]='File size must be excately 2 MB';
+                    }
+                    
+                    if(empty($errors)==true){
+                       move_uploaded_file($file_tmp,"img/usuario/".$dados->cd_usuario.".jpg");
+                       echo 'Sucesso';
+                    }else{
+                       print_r($errors);
+                    }
+                }
+            }
+            header('Location: login.php');
+        }
+    }			
+}
+
+
 ?>
 
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8">
+<head>
+	<title>Cadastro</title>
+	 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<title>Cadastro</title>
+    <style type="text/css">
+    	*{
+    		margin:0;
+    		padding:0;
+    		box-sizing: border-box;
+    		font-family: 'DM Serif Display', serif;
+    		border:none;
+    		color: #323232;
+    		font-size: 20px;
+    	}
+    	input, label{
+    		display: block;
+    		outline: none;
+    		width: 100%;
+    	}
+    	a{
+    		color: #f95426;
+    	}
+    	body{
+    		padding-top: 5vh;
+    		background-image: url(img/fundo.jpg); 
+    		background-size: cover;
+    		background-position-y:-150px;
+    		background-repeat: no-repeat;
+    	}
+    	h1{
+    		text-align: center;
+    	}
+    	#caixa{
+    		width: 600px;
+  			margin-left: auto;
+  			margin-right: auto;
+  			background-color: #FFF;
+  			border-radius: 10px;
+  			padding: 20px;
+    	}
+    	#formulario{
+    		margin-bottom: 20px;
+    		font-size: 1.1rem;
+    	}
+    	form {
+		  	display: flex;
+		  	flex-wrap: wrap;
+		  	justify-content: space-between;
+		}
+		.full-box {
+		  	flex: 1 1 100%;
+		  	position: relative;
+		}
+		.half-box {
+			flex: 1 1 45%;
+			position: relative;
+		}
+
+		.spacing {
+			margin-right: 2.5%;
+		}
+
+		#cadastro{
+			text-align: center;
+
+		}
+    	#adicionar{
+      		float: right;
+    	}
+		label {
+			font-weight: bold;
+ 			font-size: .6rem;
+		}
+			
+		input {
+			border-bottom: 2px solid #323232;
+			padding: 10px;
+			font-size: .7rem;
+			margin-bottom: 40px;
+		}
+			
+		input:focus {
+			border-color: #f95426;
+			}
+			
+		input[type="submit"] {
+			background-color: #;
+			color: #FFF;
+			border: none;
+			border-radius: 20px;
+			height: 40px;
+			cursor: pointer;
+		} 
+    </style>
+</head>
 <body>
-<center>
-<br>
-<form method="POST" action="cad.php" enctype="multipart/form-data">
-		<div class="row">
-			<div class="col-sm-12" id="meio">
-                <label>Nome:</label>
-				<input type="text" name="nome" placeholder="Digite seu nome" required>
-<br>
+	<div id="caixa" class="container">
+		<h1>Cadastrar</h1>
+		<form id="formulario"  method="POST" action="cad.php">
+			<div class="half-box spacing">
+        		<label for="name">Nome:</label>
+       			<input type="name" name="nome" id="nome" placeholder="Digite seu nome">
+      		</div>
+      		<div class="half-box">
+        		<label for="username">Nome de usuário:</label>
+       			<input type="username" name="user" id="user" placeholder="Digite seu nome de usuário">
+      		</div>
+      		<div class="half-box spacing">
+        		<label for="email">E-mail:</label>
+       			<input type="email" name="email" id="email" placeholder="Digite seu E-mail">
+      		</div>
+      		<div class="half-box">
+        		<label for="senha">Senha:</label>
+       			<input type="password" name="senha" id="senha" placeholder="Digite sua senha">
+      		</div>
 
-				<label>Username:</label>
-				<input type="text" name="user" placeholder="Digite seu username" required>
-<br>
+		<!--não mexer mais aqui-->
+          <br>
+          <div class="row full-box">
+            <div class="col-sm-12" style="text-align: center;">
+			  <input type="file" class="btn btn-danger btn-md" name="foto" id='foto' placeholder="Adicione uma foto">
+            </div>
 
-                <label>Email:</label>
-				<input type="email" name="email" placeholder="Digite seu email" required>
-<br>
-				<label>Senha:</label>
-				<input type="password" name="senha" placeholder="Digite sua senha" required>
-			</div>
-		</div>
-<br>
-<br>
-		<div class="row">
-			<div class="col-sm-12" id="fim">
-				<input type="submit" class="btn btn-dark" value="Cadastrar">
-		</div>
-</form>
+			<div class="col-sm-12" style="text-align: center;">
+			  <input type="submit" class="btn btn-danger btn-md" value="Cadastrar">
+            </div>
+          </div>
+		</form>
 	</div>
-</center>
 </body>
-
-<style>
-	body{
-		background: #ffe5cc;
-		margin-top: 50px;
-	}
-</style>
 </html>
